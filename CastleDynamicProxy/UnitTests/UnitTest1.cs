@@ -4,6 +4,7 @@ using Castle.Components.DictionaryAdapter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.Collections;
 
 namespace UnitTests
 {
@@ -21,17 +22,17 @@ namespace UnitTests
 			Assert.AreEqual("A1", wrapper.Argument1);
 			Assert.AreEqual("A2", wrapper.Argument2);
 
-			dict["Argument3"] = 3;
-			Assert.AreEqual("A3", wrapper.Argument3);
+			dict["Argument3"] = "3";
+			Assert.AreEqual("3", wrapper.Argument3);
 		}
 
-		[TestMethod]
-		public void MyTestMethod()
-		{
-			var o = new MyClass { Argument1 = "Homer", Argument2 = "Jay", Argument3 = "Simpsons" };
-			var json = JsonConvert.SerializeObject(o);
-			Console.WriteLine(json);
-		}
+		//[TestMethod]
+		//public void MyTestMethod()
+		//{
+		//	var o = new MyClass { Argument1 = "Homer", Argument2 = "Jay", Argument3 = "Simpsons" };
+		//	var json = JsonConvert.SerializeObject(o);
+		//	Console.WriteLine(json);
+		//}
 
 		[TestMethod]
 		public void MyTestMethod2()
@@ -39,7 +40,10 @@ namespace UnitTests
 			const string json = "{\"Argument1\":\"Homer\",\"Argument2\":\"Jay\",\"Argument3\":\"Simpsons\"}";
 			JObject j = JObject.Parse(json);
 			var dict = j.Properties().ToDictionary(jp => jp.Name, jp => jp.Value.ToString());
-			IMyInt wrapper = new DictionaryAdapterFactory().GetAdapter<IMyInt>(dict);
+			dict["abc"] = "def";
+			//IMyInt wrapper = new DictionaryAdapterFactory().GetAdapter<IMyInt>(dict);
+			dynamic wrapper = new DictionaryAdapterFactory().GetAdapter(typeof(IMyInt), (IDictionary)dict);
+			Assert.IsInstanceOfType(wrapper, typeof(IMyInt));
 			Assert.AreEqual("Homer", wrapper.Argument1);
 			Assert.AreEqual("Jay", wrapper.Argument2);
 			Assert.AreEqual("Simpsons", wrapper.Argument3);
