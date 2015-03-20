@@ -31,8 +31,8 @@ namespace AppSettingsSectionHandler
 			if (config.AppSettings.Settings.AllKeys.Contains("SettingKey"))
 				config.AppSettings.Settings.Remove("SettingKey");
 			config.AppSettings.Settings.Add("SettingKey", "NewValue");
-			//config.Save(ConfigurationSaveMode.Minimal);
-			//ConfigurationManager.RefreshSection("appSettings");
+			config.Save(ConfigurationSaveMode.Minimal);
+			ConfigurationManager.RefreshSection("appSettings");
 			v = ConfigurationManager.AppSettings["SettingKey"];
 			Console.WriteLine(v);
 		}
