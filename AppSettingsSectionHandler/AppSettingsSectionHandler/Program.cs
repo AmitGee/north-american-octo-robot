@@ -35,6 +35,7 @@ namespace AppSettingsSectionHandler
 			ConfigurationManager.RefreshSection("appSettings");
 			v = ConfigurationManager.AppSettings["SettingKey"];
 			Console.WriteLine(v);
+
 		}
 	}
 
